@@ -1,0 +1,7 @@
+{% load static %}
+
+{% for link_item in links_menu %}
+    <a href="{% url link_item.url %}" class=""><img src="{% static link_item.img %}" alt="{{ link_item.title }}"
+    {% if request.resolver_match.url_name == link_item.url %}class="loot_menu_img is_active"
+    {% else %}class="loot_menu_img"{% endif %}></a>
+{% endfor %}

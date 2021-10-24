@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title|title }}{% endblock %}</title>
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css'%}">
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <hr class="top_line">
+        <div class="header">
+            {% block header %}
+            <div class="header_left">
+                <img src="{% static 'img/LOL_icon.svg' %}" alt="logo" class="header_logo">
+                <hr class="header_line">
+                <a href="{% url 'home' %}" class="header_home">Home</a>
+            </div>
+            <div class="header_right">
+                {% include 'mainapp/includes/inc_main_menu.html' %}
+                <hr class="header_line">
+                <div class="header_currency">
+                    <div class="header_currency_rp">
+                        <img src="{% static 'img/RP.svg' %}" alt="rp" class="currency_img">
+                        <h1 class="rp_count"></h1>
+                    </div>
+                    <div class="header_currency_blue">
+                        <img src="{% static 'img/Blue_Essence.svg' %}" alt="blue essence" class="currency_img">
+                        <h1 class="blue_count"></h1>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        <hr class="mid_line">
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>
