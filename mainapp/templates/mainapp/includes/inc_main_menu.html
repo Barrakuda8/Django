@@ -1,6 +1,6 @@
 {% load static %}
 
-<a href="{% url 'collection' %}"><img src="{% static 'img/Collection.svg' %}" alt="collection"
+<a href="{% url 'collection:index' %}"><img src="{% static 'img/Collection.svg' %}" alt="collection"
 {% if request.resolver_match.url_name == 'collection' %}class="menu_img is_active"
 {% else %}class="menu_img"{% endif %}></a>
 <a href=" {% url 'loot' %}"><img src="{% static 'img/Loot.svg' %}" alt="loot"

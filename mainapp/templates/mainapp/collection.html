@@ -1,2 +1,21 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+
+{% block content %}
+{% include 'mainapp/includes/inc_collection_menu.html' %}
+<div class="collection_champs_content">
+    <div class="content_left">
+
+    </div>
+    <div class="content_right">
+        {% for champ in champions %}
+        <div class="champion">
+            <div class="champion_img_block">
+                <img src="/media/{{ champ.image }}" alt="{{ champ.name }}" class="champion_img">
+            </div>
+            <p class="champion_name">{{ champ.name|title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

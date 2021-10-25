@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mainapp import views as mainapp
+from django.conf import settings
+from django.conf.urls import include
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', mainapp.index, name="home"),
-    path('collection/', mainapp.collection, name="collection"),
+    path('collection/', include('mainapp.urls', namespace='collection')),
     path('loot/', mainapp.loot, name="loot"),
     path('store/', mainapp.store, name="store"),
+
+
     path('loot/chests/', mainapp.loot, name="loot_chests"),
     path('loot/champs/', mainapp.loot, name="loot_champs"),
     path('loot/skins/', mainapp.loot, name="loot_skins"),
@@ -32,3 +38,6 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
