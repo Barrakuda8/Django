@@ -1,0 +1,11 @@
+{% load static %}
+
+<a href="{% url 'collection' %}"><img src="{% static 'img/Collection.svg' %}" alt="collection"
+{% if request.resolver_match.url_name == 'collection' %}class="menu_img is_active"
+{% else %}class="menu_img"{% endif %}></a>
+<a href=" {% url 'loot' %}"><img src="{% static 'img/Loot.svg' %}" alt="loot"
+{% if 'loot' in request.resolver_match.url_name %}class="menu_img is_active"
+{% else %}class="menu_img"{% endif %}></a>
+<a href="{% url 'store' %}"><img src="{% static 'img/Store.svg' %}" alt="store"
+{% if request.resolver_match.url_name == 'store' %}class="menu_img is_active"
+{% else %}class="menu_img"{% endif %}></a>
