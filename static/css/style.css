@@ -86,7 +86,79 @@
   background: #000;
 }
 
-.content {
+.sub_menu {
+  margin-bottom: 30px;
+}
+
+.sub_menu .sub_menu_link {
+  text-decoration: none;
+  font-size: 20px;
+  margin: 20px 0 0 40px;
+  color: #000;
+}
+
+.sub_menu .is_active {
+  border-bottom: 1px solid black;
+}
+
+.collection_champs_content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.collection_champs_content .content_left {
+  margin-right: 30px;
+}
+
+.collection_champs_content .content_right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.collection_champs_content .content_right .champion {
+  margin: 0 20px 20px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.collection_champs_content .content_right .champion .champion_img_block {
+  position: relative;
+  width: 129px;
+  height: 200px;
+  overflow: hidden;
+  -webkit-box-shadow: inset 0 0 5px 5px black;
+          box-shadow: inset 0 0 5px 5px black;
+  margin-bottom: 20px;
+}
+
+.collection_champs_content .content_right .champion .champion_img_block .champion_img {
+  position: absolute;
+  right: -120px;
+  height: 210px;
+  z-index: -2;
+}
+
+.collection_champs_content .content_right .champion .champion_name {
+  font-size: 15px;
+  color: #000;
+}
+
+.loot_content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -95,7 +167,7 @@
           align-items: space-around;
 }
 
-.content .loot_menu {
+.loot_content .loot_menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -109,12 +181,12 @@
   width: 70px;
 }
 
-.content .loot_menu_img {
+.loot_content .loot_menu_img {
   height: 35px;
   margin-bottom: 20px;
 }
 
-.content .loot_menu .is_active {
+.loot_content .loot_menu .is_active {
   border-left: 1px solid black;
 }
 /*# sourceMappingURL=style.css.map */

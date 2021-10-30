@@ -75,11 +75,76 @@
     background: #000; 
 }
 
+.sub_menu {
 
-.content {
+    margin-bottom: 30px;
+
+    .sub_menu_link {
+        text-decoration: none;
+        font-size: 20px;
+        margin: 20px 0 0 40px;
+        color: #000;
+    }
+
+    .is_active {
+        border-bottom: 1px solid black;
+    }
+}
+
+.collection_champs_content {
+
+    display: flex;
+
+    .content_left {
+        margin-right: 30px;
+    }
+
+    .content_right {
+
+        display: flex;
+        justify-content: start;
+        flex-wrap: wrap;
+
+        .champion {
+            margin: 0 20px 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .champion_img_block {
+
+                position: relative;
+                width: 129px;
+                height: 200px;
+                overflow: hidden;
+                box-shadow: inset 0 0 5px 5px rgba(0, 0, 0, 1);
+                margin-bottom: 20px;
+
+                .champion_img {
+
+                    position: absolute;
+                    right: -120px;
+                    height: 210px;
+                    z-index: -2;
+
+                }
+            }
+
+            .champion_name {
+
+                font-size: 15px;
+                color: #000;
+
+            }
+        }
+    }
+}
+
+.loot_content {
 
     display: flex;
     align-items: space-around;
+
 
     .loot_menu {
         display: flex;

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import CollectionCategory, Champion, Skin
 
 # Create your views here.
 
@@ -10,9 +11,11 @@ def index(request):
     return render(request, 'mainapp/index.html', context=context)
 
 
-def collection(request):
+def collection(request, pk=None):
     context = {
         'title': 'Collection',
+        'categories': CollectionCategory.objects.all(),
+        'champions': Champion.objects.all()
     }
     return render(request, 'mainapp/collection.html', context=context)
 
