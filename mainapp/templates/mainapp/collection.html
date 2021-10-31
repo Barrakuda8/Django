@@ -11,7 +11,7 @@
         {% for champ in champions %}
         <div class="champion">
             <div class="champion_img_block">
-                <img src="/media/{{ champ.image }}" alt="{{ champ.name }}" class="champion_img">
+                <img src="{{ champ.image.url }}" alt="{{ champ.name }}" class="champion_img">
             </div>
             <p class="champion_name">{{ champ.name|title }}</p>
         </div>

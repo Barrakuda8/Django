@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mainapp',
+    'authapp',
 ]
+
+AUTH_USER_MODEL = 'authapp.Player'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
