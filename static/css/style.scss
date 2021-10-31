@@ -3,6 +3,52 @@
     padding: 0
 }
 
+.container_auth {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    border: 1px solid #000;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .auth_h1 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .errorlist {
+        list-style-type: none;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .field_wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .auth_button {
+        padding: 2px 10px;
+        font-size: 12px;
+    }
+
+    .auth_link {
+        text-decoration: none;
+        font-size: 12px;
+        color: #000;
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -58,13 +104,67 @@
         }
         
         .header_currency {
-            width: 200px;
-        }
+            width: 100px;
+            margin-top: 10px;
 
-        .currency_img {
-            height: 30px;
+            &_subblock {
+
+                display: flex;
+                margin-bottom: 10px;
+
+                .currency_img {
+                    height: 20px;
+                    margin-right: 10px;
+                }
+            }
         }
         
+    }
+
+    &_user {
+        height: 100%;
+        margin-left: 30px;
+        border-left: 2px solid #000;
+        display: flex;
+        align-items: center;
+
+        .user_icon_block {
+            width: 50px;
+            height: 50px;
+            margin: 0 20px;
+            position: relative;
+            border-radius: 50%;
+            border: 1px solid #000;
+            overflow: hidden;
+
+            .user_icon {
+                width: 50px;
+                position: absolute;
+            }
+        }
+
+        .user_right {
+
+            display: flex;
+            flex-direction: column;
+            width: 80px;
+            margin-right: 20px;
+
+            .user_name {
+                font-size: 20px;
+            }
+
+            .user_menu {
+                display: flex;
+                justify-content: space-between;
+
+                &_link {
+                    text-decoration: none;
+                    font-size: 15px;
+                    color: #000;
+                }
+            }
+        }
     }
 }
 

@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import CollectionCategory, Champion, Skin
+from django.contrib import auth
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 

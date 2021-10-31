@@ -12,8 +12,16 @@ class Champion(models.Model):
     category = models.ForeignKey(CollectionCategory, on_delete=models.CASCADE, verbose_name='category')
     name = models.CharField(verbose_name='name', max_length=32, unique=True)
     image = models.ImageField(upload_to='champions', blank=True)
-    price_rp = models.PositiveBigIntegerField(verbose_name='price_rp')
-    price_be = models.PositiveBigIntegerField(verbose_name='price_blue_essence')
+    price_rp = models.PositiveBigIntegerField(verbose_name='price rp')
+    price_be = models.PositiveBigIntegerField(verbose_name='price blue essence')
+
+    def __str__(self):
+        return self.name
+
+
+class Icon(models.Model):
+    name = models.CharField(verbose_name='name', unique=True, max_length=32)
+    image = models.ImageField(verbose_name='image')
 
     def __str__(self):
         return self.name
