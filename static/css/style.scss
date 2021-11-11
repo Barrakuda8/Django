@@ -191,12 +191,97 @@
     }
 }
 
-.collection_champs_content {
+.not_owned {
+    opacity: 0.7;
+}
+
+.collection_content {
 
     display: flex;
 
     .content_left {
-        margin-right: 30px;
+        margin: 0 35px 0;
+        display: flex;
+        flex-direction: column;
+
+        .counter {
+            font-size: 50px;
+            color: #000;
+        } 
+
+        .champion_counter_block {
+            width: 200px;
+            height: 150px;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;           
+        }
+
+        .skin_counter_block {
+            margin: 60px 0 20px;
+            padding: 80px 20px 0;
+            position: relative;
+            width: 200px;
+            height: 150px;
+            border: 2px solid #000;
+            box-sizing: border-box;
+
+            .skin_counter {
+                position: absolute;
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                border: 2px solid #000;
+                top: -60px;
+                right: 40px;
+                overflow: hidden;
+                background: #FFF;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .skin_tiers {
+                display: flex;
+                justify-content: space-between;
+
+                .skin_tier {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    .skin_tier_img {
+                        width: 30px;
+                        margin-bottom: 2px;
+                    }
+                }
+            }
+        }
+
+        .search {
+            border: 1px solid #000;
+            margin-bottom: 20px;
+            padding: 5px 10px;
+        }
+
+        .show_unowned {
+            text-decoration: none;
+            font-size: 15px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .selection {
+            list-style-type: none;
+        }
+
+        .selection_link {
+            text-decoration: none;
+            font-size: 15px;
+            color: #000;
+        }
     }
 
     .content_right {
@@ -272,4 +357,110 @@
 }
 
 
+.store_content {
 
+    display: flex;
+
+    .content_left {
+        margin: 0 35px 0;
+        display: flex;
+        flex-direction: column;
+
+        .search {
+            border: 1px solid #000;
+            margin-bottom: 20px;
+            padding: 5px 10px;
+        }
+
+        .show_unowned {
+            text-decoration: none;
+            font-size: 15px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .selection {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .selection_link {
+            text-decoration: none;
+            font-size: 15px;
+            color: #000;
+        }
+    }
+
+    .content_right {
+
+        display: flex;
+        justify-content: start;
+        flex-wrap: wrap;
+
+        .store_link {
+            text-decoration: none;
+        }
+
+        .champion {
+
+            position: relative;
+            width: 170px;
+            height: 170px;
+            overflow: hidden;
+            box-shadow: 0px 0px 1px 2px rgb(204, 189, 189);
+            margin: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+
+            .champion_img {
+
+                position: absolute;
+                right: -100px;
+                top: 0px;
+                height: 210px;
+                z-index: -2;
+
+            }
+
+            .champion_name {
+                font-size: 15px;
+                color: #FFF;
+                margin-bottom: 5px;
+            }
+
+            .champion_price_big {
+
+                width: 100px;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+                padding-left: 5px;
+
+                .champion_price_small {
+                    display: flex;
+                    align-items: center;
+
+                    .champion_price_img {
+                        width: 15px;
+                        height: 15px;
+                        margin-right: 3px;
+                    }
+
+                    .champion_price {
+                        font-size: 13px;
+                        color: #FFF;
+                        font-weight: bold;
+                    }
+
+                }
+            }
+
+            .only_rp {
+                justify-content: center;
+            }
+
+        }
+    }
+}

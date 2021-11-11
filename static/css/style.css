@@ -233,17 +233,131 @@
   border-bottom: 1px solid black;
 }
 
-.collection_champs_content {
+.not_owned {
+  opacity: 0.7;
+}
+
+.collection_content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.collection_champs_content .content_left {
-  margin-right: 30px;
+.collection_content .content_left {
+  margin: 0 35px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.collection_champs_content .content_right {
+.collection_content .content_left .counter {
+  font-size: 50px;
+  color: #000;
+}
+
+.collection_content .content_left .champion_counter_block {
+  width: 200px;
+  height: 150px;
+  border: 2px solid #000;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.collection_content .content_left .skin_counter_block {
+  margin: 60px 0 20px;
+  padding: 80px 20px 0;
+  position: relative;
+  width: 200px;
+  height: 150px;
+  border: 2px solid #000;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.collection_content .content_left .skin_counter_block .skin_counter {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  top: -60px;
+  right: 40px;
+  overflow: hidden;
+  background: #FFF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.collection_content .content_left .skin_counter_block .skin_tiers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.collection_content .content_left .skin_counter_block .skin_tiers .skin_tier {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.collection_content .content_left .skin_counter_block .skin_tiers .skin_tier .skin_tier_img {
+  width: 30px;
+  margin-bottom: 2px;
+}
+
+.collection_content .content_left .search {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+}
+
+.collection_content .content_left .show_unowned {
+  text-decoration: none;
+  font-size: 15px;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.collection_content .content_left .selection {
+  list-style-type: none;
+}
+
+.collection_content .content_left .selection_link {
+  text-decoration: none;
+  font-size: 15px;
+  color: #000;
+}
+
+.collection_content .content_right {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -254,7 +368,7 @@
       flex-wrap: wrap;
 }
 
-.collection_champs_content .content_right .champion {
+.collection_content .content_right .champion {
   margin: 0 20px 20px 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -268,7 +382,7 @@
           align-items: center;
 }
 
-.collection_champs_content .content_right .champion .champion_img_block {
+.collection_content .content_right .champion .champion_img_block {
   position: relative;
   width: 129px;
   height: 200px;
@@ -278,14 +392,14 @@
   margin-bottom: 20px;
 }
 
-.collection_champs_content .content_right .champion .champion_img_block .champion_img {
+.collection_content .content_right .champion .champion_img_block .champion_img {
   position: absolute;
   right: -120px;
   height: 210px;
   z-index: -2;
 }
 
-.collection_champs_content .content_right .champion .champion_name {
+.collection_content .content_right .champion .champion_name {
   font-size: 15px;
   color: #000;
 }
@@ -320,5 +434,137 @@
 
 .loot_content .loot_menu .is_active {
   border-left: 1px solid black;
+}
+
+.store_content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.store_content .content_left {
+  margin: 0 35px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.store_content .content_left .search {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+}
+
+.store_content .content_left .show_unowned {
+  text-decoration: none;
+  font-size: 15px;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.store_content .content_left .selection {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+
+.store_content .content_left .selection_link {
+  text-decoration: none;
+  font-size: 15px;
+  color: #000;
+}
+
+.store_content .content_right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.store_content .content_right .store_link {
+  text-decoration: none;
+}
+
+.store_content .content_right .champion {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 0px 1px 2px #ccbdbd;
+          box-shadow: 0px 0px 1px 2px #ccbdbd;
+  margin: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.store_content .content_right .champion .champion_img {
+  position: absolute;
+  right: -100px;
+  top: 0px;
+  height: 210px;
+  z-index: -2;
+}
+
+.store_content .content_right .champion .champion_name {
+  font-size: 15px;
+  color: #FFF;
+  margin-bottom: 5px;
+}
+
+.store_content .content_right .champion .champion_price_big {
+  width: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 8px;
+  padding-left: 5px;
+}
+
+.store_content .content_right .champion .champion_price_big .champion_price_small {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.store_content .content_right .champion .champion_price_big .champion_price_small .champion_price_img {
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+}
+
+.store_content .content_right .champion .champion_price_big .champion_price_small .champion_price {
+  font-size: 13px;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.store_content .content_right .champion .only_rp {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=style.css.map */
