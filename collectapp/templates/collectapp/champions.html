@@ -1,0 +1,26 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'collectapp/includes/inc_collection_menu.html' %}
+<div class="collection_content">
+    <div class="content_left">
+        <div class="champion_counter_block">
+            <p class="counter">{{ owned_champs|length }}</p>
+        </div>
+        <input type="text" placeholder="Search" class="search">
+        <a href="#" class="show_unowned">Show Unowned</a>
+    </div>
+    <div class="content_right">
+        {% for champ in champions %}
+        <div class="champion">
+            <div class="champion_img_block">
+                <img src="{{ champ.image.url }}" alt="{{ champ.name }}" {% if champ.pk not in owned_champs %}
+                     class="champion_img not_owned"{% else %}class="champion_img"{% endif %}>
+            </div>
+            <p class="champion_name">{{ champ.name|title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

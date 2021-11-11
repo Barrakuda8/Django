@@ -2,7 +2,7 @@ import json
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from authapp.models import Player
-from mainapp.models import Champion, CollectionCategory, Icon
+from mainapp.models import Champion, CollectionCategory, Skin, Icon
 
 
 def load_from_json(file_name):
@@ -15,6 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         categories = load_from_json('categories')
         champions = load_from_json('champions')
+        skins = load_from_json('skins')
         icons = load_from_json('icons')
 
         CollectionCategory.objects.all().delete()
@@ -23,13 +24,26 @@ class Command(BaseCommand):
 
         Champion.objects.all().delete()
         for champion in champions:
-            category_name = champion['category']
-            category_item = CollectionCategory.objects.get(name=category_name)
+            category_item = CollectionCategory.objects.get(name='champions')
             champion['category'] = category_item
             Champion.objects.create(**champion)
+
+        Skin.objects.all().delete()
+        for skin in skins:
+            category_item = CollectionCategory.objects.get(name='skins')
+            skin['category'] = category_item
+            champion_name = skin['champion']
+            champion_item = Champion.objects.get(name=champion_name)
+            skin['champion'] = champion_item
+            Skin.objects.create(**skin)
 
         Icon.objects.all().delete()
         for icon in icons:
             Icon.objects.create(**icon)
+
+        try:
+            Player.objects.get(username='django').delete()
+        except:
+            pass
 
         Player.objects.create_superuser(username='django', password='geekbrains', nickname='Django', age=18)

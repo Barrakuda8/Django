@@ -25,18 +25,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', authapp.index, name='index'),
     path('home/', mainapp.index, name="home"),
-    path('collection/', include('mainapp.urls', namespace='collection')),
-    path('loot/', mainapp.loot, name="loot"),
-    path('store/', mainapp.store, name="store"),
+    path('collection/', include('collectapp.urls', namespace='collection')),
+    path('loot/', include('lootapp.urls', namespace="loot")),
+    path('store/', include('storeapp.urls', namespace="store")),
     path('auth/', include('authapp.urls', namespace='auth')),
-
-
-    path('loot/chests/', mainapp.loot, name="loot_chests"),
-    path('loot/champs/', mainapp.loot, name="loot_champs"),
-    path('loot/skins/', mainapp.loot, name="loot_skins"),
-    path('loot/emotes/', mainapp.loot, name="loot_emotes"),
-    path('loot/wards/', mainapp.loot, name="loot_wards"),
-    path('loot/icons/', mainapp.loot, name="loot_icons"),
+    path('basket/', include('basketapp.urls', namespace='basket')),
 
     
     path('admin/', admin.site.urls),

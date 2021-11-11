@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 
     'mainapp',
     'authapp',
+    'basketapp',
+    'collectapp',
+    'lootapp',
+    'storeapp',
 ]
 
 AUTH_USER_MODEL = 'authapp.Player'
