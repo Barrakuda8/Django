@@ -12,6 +12,10 @@ def index(request):
 
 def login(request):
     login_form = PlayerLoginForm(data=request.POST)
+    if 'next' in request.GET.keys():
+        next_value = request.GET['next']
+    else:
+        next_value = ''
     if request.method == 'POST' and login_form.is_valid():
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -19,9 +23,13 @@ def login(request):
         player = auth.authenticate(username=username, password=password)
         if player and player.is_active:
             auth.login(request, player)
-            return HttpResponseRedirect(reverse('home'))
+            if 'next' in request.POST.keys():
+                return HttpResponseRedirect(request.POST['next'])
+            else:
+                return HttpResponseRedirect(reverse('home'))
     context = {
-        'login_form': login_form
+        'login_form': login_form,
+        'next': next_value
     }
     return render(request, 'authapp/login.html', context)
 

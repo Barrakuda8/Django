@@ -5,4 +5,5 @@ app_name = 'collectapp'
 
 urlpatterns = [
     path('<str:name>/', collectapp.collection, name='category'),
+    path('<str:cat>/<int:pk>/', collectapp.product, name='product')
 ]

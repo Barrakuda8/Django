@@ -16,18 +16,17 @@
             <li><a href="#" class="selection_link">Alphabet desc</a></li>
         </ul>
         <ul class="selection">
-            <li><a href="{% url 'store:role_sort' 'slayer' %}" class="selection_link">Slayer</a></li>
-            <li><a href="{% url 'store:role_sort' 'fighter' %}" class="selection_link">Fighter</a></li>
-            <li><a href="{% url 'store:role_sort' 'mage' %}" class="selection_link">Mage</a></li>
-            <li><a href="{% url 'store:role_sort' 'marksman' %}" class="selection_link">Marksman</a></li>
-            <li><a href="{% url 'store:role_sort' 'tank' %}" class="selection_link">Tank</a></li>
-            <li><a href="{% url 'store:role_sort' 'support' %}" class="selection_link">Support</a></li>
+            {% for role in roles %}
+            <li>
+                <a href="{% url 'store:champs' name='champions' role=role %}" class="selection_link">{{ role|title }}</a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
     <div class="content_right">
         {% for champ in champions %}
-        <a {% if champ.pk not in owned_champs %}href="{% url 'basket:add' 'champions' champ.pk %}"{% else %}
-           href="{% url 'basket:remove' 'champions' champ.pk %}"{% endif %} class="store_link">
+        <a {% if champ.pk not in owned_champs %}href="{% url 'store:add' cat='champions' pk=champ.pk %}"{% else %}
+           href="#"{% endif %} class="store_link">
             <div class="champion">
                 <img src="{{ champ.image.url }}" alt="{{ champ.name }}" {% if champ.pk not in owned_champs %}
                      class="champion_img not_owned"{% else %}class="champion_img"{% endif %}>

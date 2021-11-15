@@ -14,10 +14,12 @@
     <div class="content_right">
         {% for champ in champions %}
         <div class="champion">
+            <a href="{% url 'collection:product' 'champions' champ.pk %}">
             <div class="champion_img_block">
                 <img src="{{ champ.image.url }}" alt="{{ champ.name }}" {% if champ.pk not in owned_champs %}
                      class="champion_img not_owned"{% else %}class="champion_img"{% endif %}>
             </div>
+            </a>
             <p class="champion_name">{{ champ.name|title }}</p>
         </div>
         {% endfor %}
