@@ -38,12 +38,14 @@
     </div>
     <div class="content_right">
         {% for skin in skins %}
+        <a href="{% url 'collection:product' cat='skins' pk=skin.pk %}">
         <div class="champion">
             <div class="champion_img_block">
                 <img src="{{ skin.image.url }}" alt="{{ skin.name }}" {% if skin.pk not in owned_skins %}
                      class="champion_img not_owned"{% else %}class="champion_img"{% endif %}>
             </div>
         </div>
+        </a>
         {% endfor %}
     </div>
 </div>

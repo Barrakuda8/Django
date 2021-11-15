@@ -6,5 +6,6 @@ app_name = 'storeapp'
 urlpatterns = [
     path('', storeapp.store, name='index'),
     path('<str:name>/', storeapp.store, name='category'),
-    path('champions/<str:role>/', storeapp.store, name='role_sort')
+    path('<str:name>/<str:role>/', storeapp.store, name='champs'),
+    path('add/<str:cat>/<int:pk>/', storeapp.add, name='add')
 ]

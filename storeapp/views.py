@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from mainapp.models import CollectionCategory, Champion, Skin
 from basketapp.models import ChampionBasket, SkinBasket
@@ -7,22 +8,31 @@ from django.http import Http404
 # Create your views here.
 
 
-def store(request, name=None, role=None):
+@login_required
+def store(request, name=None, role='all'):
 
-    owned_champions = ChampionBasket.objects.filter(user=request.user).values_list('champion', flat=True)
-    owned_skins = SkinBasket.objects.filter(user=request.user).values_list('skin', flat=True)
+    basket_champ = ChampionBasket.objects.filter(user=request.user).first()
+    basket_skin = SkinBasket.objects.filter(user=request.user).first()
 
-    # Skin.objects.filter(~Q(pk__in=owned_skins))
-    # Champion.objects.filter(~Q(pk__in=owned_champions))
+    if basket_champ:
+        owned_champs = basket_champ.get_owned()
+        champ_total_cost_rp = basket_champ.get_total_cost[0]
+        champ_total_cost_be = basket_champ.get_total_cost[1]
 
-    context = {
-        'title': 'Store',
-        'categories': CollectionCategory.objects.all(),
-        'champions': Champion.objects.all(),
-        'skins': Skin.objects.all(),
-        'owned_champs': owned_champions,
-        'owned_skins': owned_skins
-    }
+        if basket_skin:
+            owned_skins = basket_skin.get_owned()
+            skin_total_cost = basket_skin.get_total_cost
+        else:
+            owned_skins = SkinBasket.objects.none()
+            skin_total_cost = 0
+    else:
+        owned_champs = ChampionBasket.objects.none()
+        owned_skins = SkinBasket.objects.none()
+        champ_total_cost_rp = 0
+        champ_total_cost_be = 0
+        skin_total_cost = 0
+
+    total_cost_rp = champ_total_cost_rp + skin_total_cost
 
     roles = {
         'slayer': ['assassin', 'skirmisher'],
@@ -32,8 +42,21 @@ def store(request, name=None, role=None):
         'tank': ['vanguard', 'warden'],
         'support': ['catcher', 'enchanter']
     }
-    
-    if role is not None:
+
+    context = {
+        'title': 'Store',
+        'player': request.user,
+        'categories': CollectionCategory.objects.all(),
+        'champions': Champion.objects.filter(~Q(pk__in=owned_champs)),
+        'roles': roles,
+        'skins': Skin.objects.filter(~Q(pk__in=owned_skins)),
+        'owned_champs': owned_champs,
+        'owned_skins': owned_skins,
+        'total_cost_rp': total_cost_rp,
+        'total_cost_be': champ_total_cost_be
+    }
+
+    if role != 'all':
 
         if role not in roles:
             raise Http404
@@ -49,5 +72,26 @@ def store(request, name=None, role=None):
         get_object_or_404(CollectionCategory, name=name)
         page = f'storeapp/{name}.html'
         context['title'] = name.title()
+
+    return render(request, page, context=context)
+
+
+@login_required
+def add(request, cat=None, pk=None):
+
+    if cat == "champions":
+        product = get_object_or_404(Champion, pk=pk)
+    elif cat == "skins":
+        product = get_object_or_404(Skin, pk=pk)
+
+    context = {
+        'title': product.name,
+        'product': product,
+        'back': request.META.get('HTTP_REFERER'),
+        'owned_skins': SkinBasket.objects.filter(user=request.user).values_list('skin', flat=True),
+        'owned_champs': ChampionBasket.objects.filter(user=request.user).values_list('champion', flat=True)
+    }
+
+    page = f'storeapp/{cat[:-1]}.html'
 
     return render(request, page, context=context)

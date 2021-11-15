@@ -18,9 +18,9 @@
 
 <body>
     <div class="container">
+        {% block header %}
         <hr class="top_line">
         <div class="header">
-            {% block header %}
             <div class="header_left">
                 <img src="{% static 'img/LOL_icon.svg' %}" alt="logo" class="header_logo">
                 <hr class="header_line">
@@ -32,11 +32,11 @@
                 <div class="header_currency">
                     <div class="header_currency_subblock">
                         <img src="{% static 'img/RP.svg' %}" alt="rp" class="currency_img">
-                        <h4 class="rp_count">100000</h1>
+                        <h4 class="rp_count">{{ player.rp }}</h1>
                     </div>
                     <div class="header_currency_subblock">
                         <img src="{% static 'img/Blue_Essence.svg' %}" alt="blue essence" class="currency_img">
-                        <h4 class="blue_count">300000</h1>
+                        <h4 class="blue_count">{{ player.blue_essence }}</h1>
                     </div>
                 </div>
                 <div class="header_user">
@@ -52,9 +52,9 @@
                     </div>
                 </div>
             </div>
-            {% endblock %}
         </div>
         <hr class="mid_line">
+        {% endblock %}
         {% block content %}
         {% endblock %}
     </div>
