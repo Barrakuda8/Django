@@ -25,6 +25,9 @@
                 <img src="{% static 'img/LOL_icon.svg' %}" alt="logo" class="header_logo">
                 <hr class="header_line">
                 <a href="{% url 'home' %}" class="header_home">Home</a>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'admin:user_list' %}" class="header_home">Admin</a>
+                {% endif %}
             </div>
             <div class="header_right">
                 {% include 'mainapp/includes/inc_main_menu.html' %}

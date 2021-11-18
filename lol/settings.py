@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'collectapp',
     'lootapp',
     'storeapp',
+    'adminapp'
 ]
 
 AUTH_USER_MODEL = 'authapp.Player'

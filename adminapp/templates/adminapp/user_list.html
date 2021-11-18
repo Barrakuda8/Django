@@ -1,0 +1,19 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container_auth container_admin_list">
+    <div class="admin_object">
+        <a href="{% url 'admin:user_create' %}" class="auth_link">+ Create a new user</a>
+    </div>
+    {% for user in users %}
+    <div {% if user.is_active %}class="admin_object"{% else %}class="admin_object not_active"{% endif %}>
+        <h1 class="auth_h1">{{ user.nickname }}</h1>
+
+        <a href="{% url 'admin:user_edit' pk=user.pk %}" class="auth_button">Edit</a>
+        <a href="{% url 'admin:user_delete' pk=user.pk %}" class="auth_button">{% if not user.is_active %}Unban
+            {% else %}Ban{% endif %}</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
