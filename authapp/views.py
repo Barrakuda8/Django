@@ -28,6 +28,7 @@ def login(request):
             else:
                 return HttpResponseRedirect(reverse('home'))
     context = {
+        'title': 'login',
         'login_form': login_form,
         'next': next_value
     }
@@ -50,6 +51,7 @@ def register(request):
         register_form = PlayerRegisterForm()
 
     context = {
+        'title': 'register',
         'register_form': register_form
     }
     return render(request, 'authapp/register.html', context)
@@ -66,6 +68,7 @@ def edit(request):
         edit_form = PlayerEditForm(instance=request.user)
 
     context = {
+        'title': 'edit',
         'edit_form': edit_form
     }
     return render(request, 'authapp/edit.html', context)

@@ -8,6 +8,7 @@ class Player(AbstractUser):
     age = models.PositiveSmallIntegerField(verbose_name='age')
     blue_essence = models.PositiveSmallIntegerField(verbose_name='blue essence balance', default=0)
     rp = models.PositiveSmallIntegerField(verbose_name='rp balance', default=0)
+    is_active = models.BooleanField(verbose_name='is active', default=True)
 
     def add_be(self, amount):
         self.blue_essence += amount
