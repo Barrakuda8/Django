@@ -48,5 +48,27 @@
         </a>
         {% endfor %}
     </div>
+    <div class="paginator_menu">
+        {% if skins.has_previous %}
+            <a href="{% url 'collection:page' 'skins' skins.previous_page_number %}">
+                ↿
+            </a>
+        {% else %}
+          <br>
+        {% endif %}
+          <p>
+              {% if skins %}
+                {{ skins.number }}/{{ skins.paginator.num_pages }}
+              {% endif %}
+          </p>
+        {% if skins.has_next %}
+            <a href="{% url 'collection:page' 'skins' skins.next_page_number %}">
+                ⇂
+            </a>
+        {% else %}
+          <br>
+        {% endif %}
+    
+        </div>
 </div>
 {% endblock %}

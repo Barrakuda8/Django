@@ -7,8 +7,11 @@
     </a>
     <a href="{% url 'admin:category_list' %}" {% if 'category' not in request.resolver_match.url_name %}class="menu_link"{% else %}class="menu_link is_active"{% endif %}>
       Categories
-      {% if category %}
-        :<span>{{ category.name }}</span>
-      {% endif %}
+    </a>
+    <a href="{% url 'admin:champion_list' %}" {% if 'champion' not in request.resolver_match.url_name %}class="menu_link"{% else %}class="menu_link is_active"{% endif %}>
+      Champions
+    </a>
+    <a href="{% url 'admin:skin_list' %}" {% if 'skin' not in request.resolver_match.url_name %}class="menu_link"{% else %}class="menu_link is_active"{% endif %}>
+      Skins
     </a>
 </div>

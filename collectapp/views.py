@@ -2,13 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from mainapp.models import CollectionCategory, Champion, Skin
 from basketapp.models import ChampionBasket, SkinBasket
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 
 # Create your views here.
 
 
 @login_required
-def collection(request, name=None):
+def collection(request, name=None, page=1):
 
     basket_champ = ChampionBasket.objects.filter(user=request.user).first()
     basket_skin = SkinBasket.objects.filter(user=request.user).first()
@@ -28,8 +29,8 @@ def collection(request, name=None):
         'title': 'Collection',
         'player': request.user,
         'categories': CollectionCategory.objects.all(),
-        'champions': Champion.objects.all(),
-        'skins': Skin.objects.all(),
+        'champions': Champion.objects.all().order_by('name'),
+        'skins': Skin.objects.all().order_by('champion__name', 'name'),
         'owned_champs': owned_champs,
         'owned_skins': owned_skins,
         'epic_skins': SkinBasket.get_division(owned_skins, 'epic'),
@@ -37,13 +38,31 @@ def collection(request, name=None):
         'mythic_skins': SkinBasket.get_division(owned_skins, 'mythic'),
         'absolute_skins': SkinBasket.get_division(owned_skins, 'absolute')
     }
+
+    if name == 'champions':
+        paginator = Paginator(context['champions'], 12)
+        try:
+            context['champions'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['champions'] = paginator.page(1)
+        except EmptyPage:
+            context['champions'] = paginator.page(paginator.num_pages)
+    elif name == 'skins':
+        paginator = Paginator(context['skins'], 12)
+        try:
+            context['skins'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['skins'] = paginator.page(1)
+        except EmptyPage:
+            context['skins'] = paginator.page(paginator.num_pages)
+
     if name is None:
-        page = f'collectapp/champions.html'
+        url = f'collectapp/champions.html'
     else:
         get_object_or_404(CollectionCategory, name=name)
-        page = f'collectapp/{name}.html'
+        url = f'collectapp/{name}.html'
         context['title'] = name.title()
-    return render(request, page, context=context)
+    return render(request, url, context=context)
 
 
 @login_required
