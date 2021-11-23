@@ -21,6 +21,12 @@
           align-items: center;
 }
 
+.container_auth img {
+  max-width: 200px;
+  height: 112.5px;
+  margin-bottom: 20px;
+}
+
 .container_auth .auth_h1 {
   font-size: 18px;
   margin-bottom: 20px;
@@ -444,6 +450,7 @@
           justify-content: start;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  width: 900px;
 }
 
 .collection_content .content_right .champion {
@@ -479,6 +486,29 @@
 
 .collection_content .content_right .champion .champion_name {
   font-size: 15px;
+  color: #000;
+}
+
+.collection_content .paginator_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 510px;
+}
+
+.collection_content .paginator_menu a {
+  text-decoration: none;
+  margin: 5px 0;
   color: #000;
 }
 
@@ -875,5 +905,24 @@
   text-decoration: none;
   color: #000;
   margin-top: 30px;
+}
+
+.paginator_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px auto;
+}
+
+.paginator_menu a {
+  text-decoration: none;
+  margin: 5px 0;
+  color: #000;
 }
 /*# sourceMappingURL=style.css.map */

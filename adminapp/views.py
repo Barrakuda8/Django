@@ -2,12 +2,22 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-
-from adminapp.forms import PlayerEditAdminForm, CategoryEditForm
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from adminapp.forms import PlayerEditAdminForm, CategoryEditForm, ChampionEditForm, SkinEditForm
 from authapp.models import Player
+from mainapp.models import Champion, Skin
 from authapp.forms import PlayerRegisterForm
-
 from mainapp.models import CollectionCategory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+class AccessMixin:
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -29,10 +39,19 @@ def user_create(request):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def user_list(request):
+def user_list(request, page=1):
+
+    paginator = Paginator(Player.objects.all().order_by('-is_active', 'nickname'), 9)
+    try:
+        users_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        users_paginator = paginator.page(1)
+    except EmptyPage:
+        users_paginator = paginator.page(paginator.num_pages)
+
     context = {
         'title': 'users',
-        'users': Player.objects.all().order_by('-is_active', 'nickname')
+        'users': users_paginator
     }
     return render(request, 'adminapp/user_list.html', context=context)
 
@@ -54,6 +73,17 @@ def user_edit(request, pk=None):
         'user': current_user
     }
     return render(request, 'adminapp/user_edit.html', context=context)
+
+
+class UserDetailView(AccessMixin, DetailView):
+    model = Player
+    template_name = 'adminapp/user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Player.objects.get(pk=self.kwargs['pk']).nickname
+
+        return context
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -134,41 +164,141 @@ def category_delete(request, pk=None):
     return render(request, 'adminapp/category_delete.html', context=context)
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def champion_create(request):
-    pass
+class ChampionCreateView(AccessMixin, CreateView):
+    model = Champion
+    template_name = 'adminapp/champion_edit.html'
+    success_url = reverse_lazy('admin:champion_list')
+    form_class = ChampionEditForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'create champion'
+        context['category'] = 'champions'
+
+        return context
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def champion_list(request):
-    pass
+class ChampionListView(AccessMixin, ListView):
+    model = Champion
+    template_name = 'adminapp/champion_list.html'
+    paginate_by = 9
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'champions'
+        context['category'] = 'champions'
+
+        return context
+
+    def get_queryset(self):
+        return Champion.objects.all().order_by('name')
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def champion_edit(request, pk=None):
-    pass
+class ChampionUpdateView(AccessMixin, UpdateView):
+    model = Champion
+    template_name = 'adminapp/champion_edit.html'
+    success_url = reverse_lazy('admin:champion_list')
+    form_class = ChampionEditForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'edit champion'
+        context['category'] = 'champions'
+
+        return context
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def champion_delete(request, pk=None):
-    pass
+class ChampionDeleteView(AccessMixin, DeleteView):
+    model = Champion
+    template_name = 'adminapp/champion_delete.html'
+    success_url = reverse_lazy('admin:champion_list')
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Champion.objects.get(pk=self.kwargs['pk']).name
+        context['category'] = 'champions'
+
+        return context
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def skin_create(request):
-    pass
+class ChampionDetailView(AccessMixin, DetailView):
+    model = Champion
+    template_name = 'adminapp/champion.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Champion.objects.get(pk=self.kwargs['pk']).name
+        context['category'] = 'champions'
+
+        return context
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def skin_list(request):
-    pass
+class SkinCreateView(AccessMixin, CreateView):
+    model = Skin
+    template_name = 'adminapp/skin_edit.html'
+    success_url = reverse_lazy('admin:skin_list')
+    form_class = SkinEditForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'create skin'
+        context['category'] = 'skins'
+
+        return context
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def skin_edit(request, pk=None):
-    pass
+class SkinListView(AccessMixin, ListView):
+    model = Skin
+    template_name = 'adminapp/skin_list.html'
+    paginate_by = 9
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'skins'
+        context['category'] = 'skins'
+
+        return context
+
+    def get_queryset(self):
+        return Skin.objects.all().order_by('champion__name', 'name')
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def skin_delete(request, pk=None):
-    pass
+class SkinUpdateView(AccessMixin, UpdateView):
+    model = Skin
+    template_name = 'adminapp/skin_edit.html'
+    success_url = reverse_lazy('admin:skin_list')
+    form_class = SkinEditForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'edit skin'
+        context['category'] = 'skins'
+
+        return context
+
+
+class SkinDeleteView(AccessMixin, DeleteView):
+    model = Skin
+    template_name = 'adminapp/skin_delete.html'
+    success_url = reverse_lazy('admin:skin_list')
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Skin.objects.get(pk=self.kwargs['pk']).name
+        context['category'] = 'skins'
+
+        return context
+
+
+class SkinDetailView(AccessMixin, DetailView):
+    model = Skin
+    template_name = 'adminapp/skin.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Skin.objects.get(pk=self.kwargs['pk']).name
+        context['category'] = 'skins'
+
+        return context

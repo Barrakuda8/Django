@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +45,7 @@
                 </div>
                 <div class="header_user">
                     <div class="user_icon_block">
-                        <img src="{{ user.icon.url }}" alt="icon" class="user_icon">
+                        <img src="{{ user.icon.url|icon_default }}" alt="icon" class="user_icon">
                     </div>
                     <div class="user_right">
                         <h4 class="user_name">{{ user.nickname|default:'Player' }}</h4>
