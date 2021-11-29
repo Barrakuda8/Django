@@ -45,7 +45,6 @@ def store(request, name=None, role='all'):
 
     context = {
         'title': 'Store',
-        'player': request.user,
         'categories': CollectionCategory.objects.all(),
         'champions': Champion.objects.filter(~Q(pk__in=owned_champs)).order_by('name'),
         'roles': roles,

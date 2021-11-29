@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from authapp.forms import PlayerLoginForm, PlayerRegisterForm, PlayerEditForm
+from django.conf import settings
+from django.core.mail import send_mail
+from authapp.models import Player
 
 
 def index(request):
@@ -45,7 +48,8 @@ def register(request):
         register_form = PlayerRegisterForm(request.POST, request.FILES)
 
         if register_form.is_valid():
-            register_form.save()
+            new_user = register_form.save()
+            send_verify_email(new_user)
             return HttpResponseRedirect(reverse('index'))
     else:
         register_form = PlayerRegisterForm()
@@ -72,3 +76,30 @@ def edit(request):
         'edit_form': edit_form
     }
     return render(request, 'authapp/edit.html', context)
+
+
+def verify(request, email, key):
+    user = get_object_or_404(Player, email=email)
+    if user:
+        if key == user.activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.activation_key = None
+            user.activation_key_expires = None
+            user.save()
+            auth.login(request, user)
+    return render(request, 'authapp/verify.html')
+
+
+def send_verify_email(user):
+    verify_link = reverse('authapp:verify', args=[user.email, user.activation_key])
+    full_link = f'{settings.BASE_URL}{verify_link}'
+
+    message = f'Your activation link: {full_link}'
+
+    return send_mail(
+        'Account activation',
+        message,
+        settings.EMAIL_HOST_USER,
+        [user.email],
+        fail_silently=False
+    )

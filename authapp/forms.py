@@ -1,6 +1,10 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 from authapp.models import Player
+from datetime import datetime
+import pytz
+from django.conf import settings
+import hashlib
 
 
 class PlayerLoginForm(AuthenticationForm):
@@ -20,7 +24,7 @@ class PlayerRegisterForm(UserCreationForm):
 
     class Meta:
         model = Player
-        fields = ('username', 'nickname', 'age', 'password1', 'password2')
+        fields = ('username', 'nickname', 'age', 'email', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,6 +37,15 @@ class PlayerRegisterForm(UserCreationForm):
         if 'fuck' in data:
             raise forms.ValidationError('Restricted words in your nickname')
         return data
+
+    def save(self, *args, **kwargs):
+        user = super().save(*args, **kwargs)
+        user.is_active = False
+        user.activation_key = hashlib.sha1(user.email.encode('utf8')).hexdigest()
+        user.activation_key_expires = datetime.now(pytz.timezone(settings.TIME_ZONE))
+        user.save()
+
+        return user
 
 
 class PlayerEditForm(UserChangeForm):
