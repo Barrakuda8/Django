@@ -9,7 +9,6 @@ from mainapp.models import CollectionCategory, Champion
 def loot(request, name=None):
     context = {
         'title': 'Loot',
-        'player': request.user,
         'categories': CollectionCategory.objects.all(),
         'champions': Champion.objects.all()
     }

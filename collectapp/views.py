@@ -27,7 +27,6 @@ def collection(request, name=None, page=1):
 
     context = {
         'title': 'Collection',
-        'player': request.user,
         'categories': CollectionCategory.objects.all(),
         'champions': Champion.objects.all().order_by('name'),
         'skins': Skin.objects.all().order_by('champion__name', 'name'),
@@ -79,7 +78,6 @@ def product(request, cat=None, pk=None):
 
     context = {
         'title': product.name,
-        'player': request.user,
         'categories': CollectionCategory.objects.all(),
         'product': product,
         'skins': skins,
