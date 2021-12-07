@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
-from authapp.models import Player
+from authapp.models import Player, PlayerProfile
 from datetime import datetime
 import pytz
 from django.conf import settings
@@ -52,7 +52,7 @@ class PlayerEditForm(UserChangeForm):
 
     class Meta:
         model = Player
-        fields = ('username', 'nickname', 'age', 'password')
+        fields = ('username', 'nickname', 'age', 'email', 'password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -67,3 +67,16 @@ class PlayerEditForm(UserChangeForm):
         if 'fuck' in data:
             raise forms.ValidationError('Restricted words in your nickname')
         return data
+
+
+class PlayerProfileEditForm(forms.ModelForm):
+
+    class Meta:
+        model = PlayerProfile
+        exclude = ('user',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''
