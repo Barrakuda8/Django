@@ -12,6 +12,11 @@
         {% endif %}
     </div>
     {% endfor %}
+    {% for field in edit_profile_form %}
+    <div class="field_wrapper">
+        {{ field.label_tag }}{{ field }}{{ field.errors }}
+    </div>
+    {% endfor %}
     <input type="submit" class="auth_button" value="Save">
 </form>
 <a href="{% url 'home' %}" class="auth_link">Home</a>

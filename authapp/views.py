@@ -7,6 +7,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from authapp.models import Player
 
+from authapp.forms import PlayerProfileEditForm
+
 
 def index(request):
     auth.logout(request)
@@ -56,7 +58,7 @@ def register(request):
 
     context = {
         'title': 'register',
-        'register_form': register_form
+        'register_form': register_form,
     }
     return render(request, 'authapp/register.html', context)
 
@@ -64,16 +66,18 @@ def register(request):
 def edit(request):
     if request.method == 'POST':
         edit_form = PlayerEditForm(request.POST, request.FILES, instance=request.user)
-
-        if edit_form.is_valid():
+        edit_profile_form = PlayerProfileEditForm(request.POST, instance=request.user.playerprofile)
+        if edit_form.is_valid() and edit_profile_form.is_valid():
             edit_form.save()
             return HttpResponseRedirect(reverse('home'))
     else:
         edit_form = PlayerEditForm(instance=request.user)
+        edit_profile_form = PlayerProfileEditForm(instance=request.user.playerprofile)
 
     context = {
         'title': 'edit',
-        'edit_form': edit_form
+        'edit_form': edit_form,
+        'edit_profile_form': edit_profile_form
     }
     return render(request, 'authapp/edit.html', context)
 

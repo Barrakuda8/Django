@@ -16,4 +16,5 @@
     <input type="submit" class="auth_button" value="Sign in">
 </form>
 <a href="{% url 'auth:register' %}" class="auth_link">Register</a>
+<a href="{% url 'social:begin' 'vk-oauth2' %}?next=/home/" class="auth_link">Login with VK</a>
 {% endblock %}
