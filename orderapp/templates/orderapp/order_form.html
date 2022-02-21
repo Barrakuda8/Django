@@ -1,0 +1,51 @@
+{% extends 'orderapp/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'orderapp/includes/inc_summary.html' %}
+<div class="order_block">
+       <form action="" method="post">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <table class="order_table">
+               {{ orderitems.management_form }}
+               {% for form in orderitems.forms %}
+                   {% if forloop.first %}
+                       <thead>
+                       <tr>
+                           {% for field in form.visible_fields %}
+                               <th class="order_table_titles">
+                                   {{ field.label|capfirst }}
+                               </th>
+                           {% endfor %}
+                       </tr>
+                       </thead>
+                   {% endif %}
+                   <tr class="order_table_line">
+                       {% for field in form.visible_fields %}
+                           <td class="order_table_cell">
+                               {% if forloop.first %}
+                                   {% for hidden in form.hidden_fields %}
+                                       {{ hidden }}
+                                   {% endfor %}
+                               {% endif %}
+                               {{ field.errors.as_ul }}
+                               {{ field }}
+                           </td>
+                       {% endfor %}
+                   </tr>
+               {% endfor %}
+           </table>
+           <div class="order_button_block">
+           <button type="submit" value="submit" class="order_button">Save</button>
+           {% if object and object.status == 'FM' %}
+           <a href="{% url 'order:delete' object.pk %}" class="order_button">Delete</a>
+               {% elif object and object.status == 'STP' %}
+           <a href="{% url 'order:proceed' object.pk %}" class="order_button">Buy</a>
+           {% endif %}
+           <a href="{% url 'order:list' %}" class="order_button">Go back</a>
+           <a href="{% url 'home' %}" class="order_button">Home</a>
+           </div>
+       </form>
+   </div>
+
+{% endblock %}

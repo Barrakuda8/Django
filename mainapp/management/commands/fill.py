@@ -4,6 +4,8 @@ from django.core.management.base import BaseCommand
 from authapp.models import Player
 from mainapp.models import Champion, CollectionCategory, Skin, Icon
 
+from lootapp.models import Material
+
 
 def load_from_json(file_name):
     with open(f'{settings.BASE_DIR}/json/{file_name}.json', 'r') as json_file:
@@ -17,6 +19,7 @@ class Command(BaseCommand):
         champions = load_from_json('champions')
         skins = load_from_json('skins')
         icons = load_from_json('icons')
+        loot = load_from_json('materials')
 
         CollectionCategory.objects.all().delete()
         for category in categories:
@@ -40,6 +43,10 @@ class Command(BaseCommand):
         Icon.objects.all().delete()
         for icon in icons:
             Icon.objects.create(**icon)
+
+        Material.objects.all().delete()
+        for material in loot:
+            Material.objects.create(**material)
 
         try:
             Player.objects.get(username='django').delete()

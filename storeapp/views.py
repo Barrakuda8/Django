@@ -67,6 +67,8 @@ def store(request, name=None, role='all'):
 
     if name is None:
         page = 'storeapp/store.html'
+    elif name == 'loot':
+        page = 'storeapp/loot.html'
     else:
         get_object_or_404(CollectionCategory, name=name)
         page = f'storeapp/{name}.html'

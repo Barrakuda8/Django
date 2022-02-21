@@ -8,4 +8,8 @@
        class="sub_menu_link is_active"
         {% else %}class="sub_menu_link"{% endif %}>{{ cat.name|title }}</a>
     {% endfor %}
+    <a href="{% url 'store:category' 'loot' %}"
+       {% if 'loot' in request.resolver_match.route %}
+       class="sub_menu_link is_active"
+        {% else %}class="sub_menu_link"{% endif %}>Loot</a>
 </div>

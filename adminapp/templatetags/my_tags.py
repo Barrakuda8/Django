@@ -10,3 +10,8 @@ def icon_default(icon):
     if not icon:
         icon = f'{settings.MEDIA_URL}/icons/Gromp.png'
     return icon
+
+
+@register.filter(name='loot')
+def loot(item):
+    return f'{settings.MEDIA_URL}/{item}'
