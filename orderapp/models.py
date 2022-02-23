@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from lootapp.models import Material
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete, pre_save
 from django.db.models import Q
 
 
@@ -38,6 +38,8 @@ class Order(models.Model):
         return sum(list(map(lambda x: x.quantity, _items)))
 
     def delete(self):
+        for item in self.orderitems.select_related():
+            item.delete()
         self.is_active = False
         self.status = self.STATUS_CANCELED
         self.save()
@@ -46,17 +48,19 @@ class Order(models.Model):
 class OrderItem(models.Model):
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='orderitems')
-    material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Material')
-    quantity = models.PositiveIntegerField(default=1, verbose_name='Quantity')
+    material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Material',
+                                 limit_choices_to=Q(is_purchasable=True))
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Quantity', )
 
     @property
     def cost(self):
         return self.material.price_rp * self.quantity
 
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.get(pk=pk)
 
-# не знаю как реализовать более адекватно
-# первая часть функции убирает из заказа товары с 0 количества
-# вторая часть делает так, чтобы в одном заказе у одного товара был только один OrderItem
+
 @receiver(post_save, sender=OrderItem)
 def item_post_save_adjustments(sender, update_fields, instance, **kwargs):
     if instance.quantity == 0:
@@ -66,10 +70,23 @@ def item_post_save_adjustments(sender, update_fields, instance, **kwargs):
         item.quantity += instance.quantity
         instance.delete()
         item.save()
-    except OrderItem.DoesNotExist:
+    except (OrderItem.DoesNotExist, AssertionError):
         pass
 
 
+@receiver(pre_save, sender=OrderItem)
+def material_quantity_update_save(sender, update_fields, instance, **kwargs):
+    if instance.pk:
+        instance.material.quantity -= instance.quantity - instance.get_item(instance.pk).quantity
+    else:
+        instance.material.quantity -= instance.quantity
+    instance.material.save()
+
+
+@receiver(pre_delete, sender=OrderItem)
+def material_quantity_update_delete(sender, instance, **kwargs):
+    instance.material.quantity += instance.quantity
+    instance.material.save()
 
 
 

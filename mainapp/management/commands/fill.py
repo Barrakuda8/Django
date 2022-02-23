@@ -53,6 +53,11 @@ class Command(BaseCommand):
         except:
             pass
 
+        try:
+            Player.objects.get(nickname='Django').delete()
+        except:
+            pass
+
         Player.objects.create_superuser(username='django', password='geekbrains', nickname='Django',
                                         age=18, email='django@gb.local')
         Player.objects.get(username='django').add_rp(100000)

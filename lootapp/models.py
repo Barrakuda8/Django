@@ -10,6 +10,7 @@ class Material(models.Model):
     image = models.ImageField(upload_to='loot', blank=True)
     price_rp = models.PositiveBigIntegerField(verbose_name='price rp', blank=True)
     is_purchasable = models.BooleanField(default=False)
+    quantity = models.SmallIntegerField(default=1000, verbose_name='quantity')
 
     def __str__(self):
         return self.name
