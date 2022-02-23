@@ -12,10 +12,11 @@
                <div> {{ item.material.price_rp }} RP
                    x {{ item.quantity }}
                    = {{ item.cost }} RP </div>
+               {{ item.material.quantity }}
            </div>
        {% endfor %}
     <div class="order_button_block">
-       {% if object.status == "FM" or item.status == "STP" %}
+       {% if object.status == "FM" or object.status == "STP" %}
            <a href="{% url 'order:delete' object.pk %}" class="order_button">Delete</a>
        {% endif %}
        {% if object.status == 'FM' %}

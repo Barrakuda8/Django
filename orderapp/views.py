@@ -1,7 +1,6 @@
 from django.db import transaction
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from orderapp.models import Order, OrderItem
@@ -9,6 +8,8 @@ from orderapp.models import Order, OrderItem
 from orderapp.forms import OrderItemForm, OrderForm
 
 from lootapp.models import PurchasedMaterial
+
+from lootapp.models import Material
 
 
 class OrderListView(ListView):
@@ -25,13 +26,12 @@ class OrderCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        OrderFormSet = inlineformset_factory(Order, OrderItem, OrderItemForm, extra=3)
+        OrderFormSet = inlineformset_factory(Order, OrderItem, OrderItemForm, extra=1)
 
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
             formset = OrderFormSet()
-
         context_data['orderitems'] = formset
         return context_data
 
@@ -59,12 +59,15 @@ class OrderUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        OrderFormSet = inlineformset_factory(Order, OrderItem, OrderItemForm, extra=3)
+        OrderFormSet = inlineformset_factory(Order, OrderItem, OrderItemForm, extra=1)
 
         if self.request.POST:
             formset = OrderFormSet(self.request.POST, instance=self.object)
         else:
             formset = OrderFormSet(instance=self.object)
+            for form in formset.forms:
+                if form.instance.pk:
+                    form.initial['price'] = form.instance.material.price_rp
 
         context_data['orderitems'] = formset
         return context_data
@@ -113,3 +116,12 @@ def order_payment(request, pk):
         order.status = Order.STATUS_DONE
         order.save()
     return HttpResponseRedirect(reverse('order:list'))
+
+
+def get_material_price(request, pk):
+    if request.is_ajax():
+        material_item = Material.objects.filter(pk=pk).first()
+        if material_item:
+            return JsonResponse({'price': material_item.price_rp})
+        else:
+            return JsonResponse({'price': 0})
