@@ -7,3 +7,5 @@ pytz
 python-dotenv
 gunicorn
 psycopg2-binary
+django-debug-toolbar
+django-debug-toolbar-template-profiler
