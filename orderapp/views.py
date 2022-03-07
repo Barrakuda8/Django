@@ -3,6 +3,7 @@ from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from orderapp.models import Order, OrderItem
 
@@ -19,7 +20,7 @@ class OrderListView(ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
-    @login_required
+    @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
         return super(ListView, self).dispatch(*args, **kwargs)
 
@@ -56,7 +57,7 @@ class OrderCreateView(CreateView):
 
         return super().form_valid(form)
 
-    @login_required
+    @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
         return super(CreateView, self).dispatch(*args, **kwargs)
 
@@ -96,7 +97,7 @@ class OrderUpdateView(UpdateView):
 
         return super().form_valid(form)
 
-    @login_required
+    @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
         return super(UpdateView, self).dispatch(*args, **kwargs)
 
@@ -104,7 +105,7 @@ class OrderUpdateView(UpdateView):
 class OrderDetailView(DetailView):
     model = Order
 
-    @login_required
+    @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
         return super(DeleteView, self).dispatch(*args, **kwargs)
 
@@ -113,7 +114,7 @@ class OrderDeleteView(DeleteView):
     model = Order
     success_url = reverse_lazy('order:list')
 
-    @login_required
+    @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
         return super(DeleteView, self).dispatch(*args, **kwargs)
 
