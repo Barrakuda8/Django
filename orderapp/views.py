@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect, JsonResponse
@@ -17,6 +18,10 @@ class OrderListView(ListView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
+
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(ListView, self).dispatch(*args, **kwargs)
 
 
 class OrderCreateView(CreateView):
@@ -50,6 +55,10 @@ class OrderCreateView(CreateView):
             self.object.delete()
 
         return super().form_valid(form)
+
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(CreateView, self).dispatch(*args, **kwargs)
 
 
 class OrderUpdateView(UpdateView):
@@ -87,14 +96,26 @@ class OrderUpdateView(UpdateView):
 
         return super().form_valid(form)
 
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(UpdateView, self).dispatch(*args, **kwargs)
+
 
 class OrderDetailView(DetailView):
     model = Order
+
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(DeleteView, self).dispatch(*args, **kwargs)
 
 
 class OrderDeleteView(DeleteView):
     model = Order
     success_url = reverse_lazy('order:list')
+
+    @login_required
+    def dispatch(self, *args, **kwargs):
+        return super(DeleteView, self).dispatch(*args, **kwargs)
 
 
 def order_sending_to_payment(request, pk):
