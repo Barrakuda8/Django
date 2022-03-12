@@ -74,7 +74,7 @@ def product(request, cat=None, pk=None):
         skins = Skin.objects.filter(champion__pk=pk)
     elif cat == "skins":
         product = get_object_or_404(Skin, pk=pk)
-        skins = random.sample(list(Skin.objects.all().exclude(pk=pk)), 5)
+        skins = random.sample(list(Skin.objects.all().exclude(pk=pk).select_related()), 5)
 
     context = {
         'title': product.name,

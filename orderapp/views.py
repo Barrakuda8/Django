@@ -107,7 +107,7 @@ class OrderDetailView(DetailView):
 
     @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
-        return super(DeleteView, self).dispatch(*args, **kwargs)
+        return super(DetailView, self).dispatch(*args, **kwargs)
 
 
 class OrderDeleteView(DeleteView):
