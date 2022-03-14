@@ -4,9 +4,19 @@ from mainapp.models import CollectionCategory, Champion, Skin
 from basketapp.models import ChampionBasket, SkinBasket
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
+from django.conf import settings
+from django.core import cache
 
-# Create your views here.
 
+def get_categories():
+    if settings.LOW_CACHE:
+        key = 'categories'
+        categories = cache.get(key)
+        if categories is None:
+            categories = CollectionCategory.objects.all()
+            cache.set(key, categories)
+        return categories
+    return CollectionCategory.objects.all()
 
 @login_required
 def collection(request, name=None, page=1):
@@ -27,7 +37,7 @@ def collection(request, name=None, page=1):
 
     context = {
         'title': 'Collection',
-        'categories': CollectionCategory.objects.all(),
+        'categories': get_categories(),
         'champions': Champion.objects.all().order_by('name'),
         'skins': Skin.objects.all().order_by('champion__name', 'name'),
         'owned_champs': owned_champs,
@@ -78,7 +88,7 @@ def product(request, cat=None, pk=None):
 
     context = {
         'title': product.name,
-        'categories': CollectionCategory.objects.all(),
+        'categories': get_categories(),
         'product': product,
         'skins': skins,
         'owned_skins': SkinBasket.objects.filter(user=request.user).values_list('skin', flat=True),

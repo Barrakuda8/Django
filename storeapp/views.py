@@ -4,8 +4,19 @@ from mainapp.models import CollectionCategory, Champion, Skin
 from basketapp.models import ChampionBasket, SkinBasket
 from django.db.models import Q
 from django.http import Http404
+from django.conf import settings
+from django.core import cache
 
-# Create your views here.
+
+def get_categories():
+    if settings.LOW_CACHE:
+        key = 'categories'
+        categories = cache.get(key)
+        if categories is None:
+            categories = CollectionCategory.objects.all()
+            cache.set(key, categories)
+        return categories
+    return CollectionCategory.objects.all()
 
 
 @login_required
@@ -45,7 +56,7 @@ def store(request, name=None, role='all'):
 
     context = {
         'title': 'Store',
-        'categories': CollectionCategory.objects.all(),
+        'categories': get_categories(),
         'champions': Champion.objects.filter(~Q(pk__in=owned_champs)).order_by('name'),
         'roles': roles,
         'skins': Skin.objects.filter(~Q(pk__in=owned_skins)).order_by('champion__name', 'name'),
