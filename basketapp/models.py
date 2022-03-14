@@ -11,16 +11,16 @@ class ChampionBasket(models.Model):
     add_datetime = models.DateTimeField(verbose_name='time', auto_now_add=True)
 
     @cached_property
-    def get_items(self):
+    def get_items_cached(self):
         return self.user.champ_basket.select_related()
 
     def get_owned(self):
-        return self.get_items.values_list('champion', flat=True)
+        return self.get_items_cached.values_list('champion', flat=True)
 
     @property
     def get_total_cost(self):
-        rp = sum(list(map(lambda x: x.champion.price_rp, self.get_items.filter(method='rp'))))
-        be = sum(list(map(lambda x: x.champion.price_be, self.get_items.filter(method='be'))))
+        rp = sum(list(map(lambda x: x.champion.price_rp, self.get_items_cached.filter(method='rp'))))
+        be = sum(list(map(lambda x: x.champion.price_be, self.get_items_cached.filter(method='be'))))
         return [rp, be]
 
 
@@ -31,11 +31,11 @@ class SkinBasket(models.Model):
     add_datetime = models.DateTimeField(verbose_name='time', auto_now_add=True)
 
     @cached_property
-    def get_items(self):
+    def get_items_cached(self):
         return self.user.skin_basket.select_related()
 
     def get_owned(self):
-        return self.get_items.values_list('skin', flat=True)
+        return self.get_items_cached.values_list('skin', flat=True)
 
     @staticmethod
     def get_division(skins, div):
@@ -46,4 +46,4 @@ class SkinBasket(models.Model):
 
     @property
     def get_total_cost(self):
-        return sum(list(map(lambda x: x.skin.price_rp, self.get_items)))
+        return sum(list(map(lambda x: x.skin.price_rp, self.get_items_cached)))
