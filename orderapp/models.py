@@ -27,6 +27,13 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    def get_summary(self):
+        _items = self.orderitems.select_related()
+        return {
+            'total_cost': sum(list(map(lambda x: x.cost, _items))),
+            'total_quantity': sum(list(map(lambda x: x.quantity, _items)))
+        }
+
     @property
     def total_cost(self):
         _items = self.orderitems.select_related()
