@@ -5,7 +5,7 @@ from basketapp.models import ChampionBasket, SkinBasket
 from django.db.models import Q
 from django.http import Http404
 from django.conf import settings
-from django.core import cache
+from django.core.cache import cache
 
 
 def get_categories():
