@@ -5,7 +5,7 @@ from basketapp.models import ChampionBasket, SkinBasket
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 from django.conf import settings
-from django.core import cache
+from django.core.cache import cache
 
 
 def get_categories():

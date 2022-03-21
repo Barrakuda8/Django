@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from mainapp.models import CollectionCategory, Champion
 from django.conf import settings
-from django.core import cache
+from django.core.cache import cache
 
 
 def get_categories():
