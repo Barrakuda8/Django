@@ -103,7 +103,6 @@ def add(request, cat=None, pk=None):
     context = {
         'title': product.name,
         'product': product,
-        'back': request.META.get('HTTP_REFERER'),
         'owned_skins': SkinBasket.objects.filter(user=request.user).values_list('skin', flat=True),
         'owned_champs': ChampionBasket.objects.filter(user=request.user).values_list('champion', flat=True)
     }

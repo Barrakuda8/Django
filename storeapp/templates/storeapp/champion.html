@@ -30,6 +30,6 @@
             </div>
         </div>
         {% endif %}
-        <a href="{{ back }}" class="back">Go back</a>
+        <a href="{% url 'store:category' 'champions' %}" class="back">Go to store</a>
     </div>
 {% endblock %}
