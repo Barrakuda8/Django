@@ -53,3 +53,8 @@ class PurchasedMaterial(models.Model):
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     user = models.ForeignKey(Player, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(null=False, default=1)
+    opened = models.PositiveSmallIntegerField(null=False, default=0)
+
+    @property
+    def get_total_cost(self):
+        return (self.quantity + self.opened) * self.material.price_rp

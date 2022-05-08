@@ -141,7 +141,7 @@ def order_payment(request, pk):
 
 
 def get_material_price(request, pk):
-    if request.is_ajax():
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         material_item = Material.objects.filter(pk=pk).first()
         if material_item:
             return JsonResponse({'price': material_item.price_rp})

@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
+
+from lootapp.models import PurchasedMaterial
 from mainapp.models import CollectionCategory, Champion, Skin
 from basketapp.models import ChampionBasket, SkinBasket
 from django.db.models import Q
@@ -43,7 +45,9 @@ def store(request, name=None, role='all'):
         champ_total_cost_be = 0
         skin_total_cost = 0
 
-    total_cost_rp = champ_total_cost_rp + skin_total_cost
+    material_total_cost = sum(map(lambda x: x.get_total_cost, PurchasedMaterial.objects.filter(user=request.user)))
+
+    total_cost_rp = champ_total_cost_rp + skin_total_cost + material_total_cost
 
     roles = {
         'slayer': ['assassin', 'skirmisher'],
