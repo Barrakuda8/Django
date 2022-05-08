@@ -1030,4 +1030,9 @@
   font-weight: bold;
   font-size: 21px;
 }
+
+.form-control[name="about_me"] {
+  width: 170px;
+  height: 130px;
+}
 /*# sourceMappingURL=style.css.map */
